@@ -1,71 +1,79 @@
 package application;
 
+import java.io.File;
+
 import models.Category;
 import models.Model;
 import models.TodoTask;
 import ui.CategoryView;
 import ui.TodoTaskView;
 import interfaces.ControllerCallback;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import interfaces.TodoListItem;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class Controller implements ControllerCallback {
 	private final String[] PRESET_CATEGORIES = new String[] { "Today", "Tomorrow", "Later"};
 	
 	@FXML
-	private ListView<HBox> listView;
+	private ListView<TodoListItem> listView;
 	
-	private ObservableList<HBox> itemList;
 	private Model model;
 	
 	@FXML
 	private void initialize() {
-		model = new Model();
-		itemList = FXCollections.observableArrayList();
-		listView.setItems(itemList);
-		addPresetCategoriesToItemList();
+		model = new Model(this);
+		if ( hasSavedState() ) {
+			model.setObservableList(FileHandler.read(this));
+		} else {
+			addPresetCategoriesToList();
+		}
+		listView.setItems( model.getObservableList() );
 	}
 	
-	private void addPresetCategoriesToItemList() {	
+	private boolean hasSavedState() {
+		File file = new File(FileHandler.FILE_NAME);
+		return file.exists();
+	}
+	
+	private void addPresetCategoriesToList() {	
 		for ( int i = 0; i < PRESET_CATEGORIES.length; i++ ) {
 			Category category = new Category( PRESET_CATEGORIES[i] );
-			itemList.add( new CategoryView(category, this));
-			model.addItem( i, category);
+			model.add( new CategoryView(category, this));
 		}
+	}
+	
+	public void setStageForApplicationClose(Stage stage) {
+		stage.setOnCloseRequest(event -> onApplicationClose());
+	}
+	
+	private void onApplicationClose() {
+		FileHandler.write(model.getObservableList());
 	}
 
 	@Override
-	public void onAddTask(CategoryView category) {
-		listView.getSelectionModel().select(category);
+	public void onAddItem(TodoListItem listItem) {
+		listView.getSelectionModel().select(listItem);
 		int index = listView.getSelectionModel().getSelectedIndex();
-		itemList.add( index + 1, new TodoTaskView( this, new TodoTask() ) );
+		index = index + 1;
+		model.add( index, new TodoTaskView( this, new TodoTask() ) );
 	}
 
 	@Override
 	public void onTaskFocusLost(TodoTaskView task) {
-		itemList.remove(task);
+		model.remove(task);
+	}
+	
+	@Override
+	public void onDeleteItem(TodoListItem item) {
+		model.remove(item);
 	}
 
 	@Override
-	public void onTaskFinished(TodoTask taskItem, HBox item) {
-		model.addItem( getPosition(item), taskItem);
+	public void onItemMove(TodoListItem to, TodoListItem from) {
+		model.move( to, from);
 	}
-	
-	@Override
-	public void onDeleteTask(TodoTaskView task, TodoTask item) {
-		itemList.remove(task);
-		model.removeItem(item);
-	}
-	
-	@Override
-	public int getPosition( HBox item ) {
-		return itemList.indexOf( item );
-	}
-
-	
 	
 	
 }

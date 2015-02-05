@@ -1,5 +1,5 @@
 package interfaces;
 
 public interface TodoListItem {
-	public String getText();
+	public String getMainText();
 }

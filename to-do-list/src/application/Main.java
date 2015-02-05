@@ -19,6 +19,8 @@ public class Main extends Application {
 			BorderPane root = (BorderPane) loader.load();
 			Scene scene = new Scene(root,300,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Controller controller = (Controller)loader.getController();
+			controller.setStageForApplicationClose(primaryStage);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("To-do List");
 			primaryStage.show();

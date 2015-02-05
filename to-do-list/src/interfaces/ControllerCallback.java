@@ -1,15 +1,11 @@
 package interfaces; 
 
-import models.TodoTask;
-import javafx.scene.layout.HBox;
-import ui.CategoryView;
 import ui.TodoTaskView;
 
 
 public interface ControllerCallback {
-	public void onAddTask( CategoryView category );
+	public void onAddItem( TodoListItem item );
 	public void onTaskFocusLost( TodoTaskView task );
-	public void onTaskFinished( TodoTask listItem, HBox item );
-	public int getPosition( HBox item );
-	public void onDeleteTask( TodoTaskView task, TodoTask item );
+	public void onDeleteItem( TodoListItem item );
+	public void onItemMove(TodoListItem to, TodoListItem from);
 }

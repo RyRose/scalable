@@ -1,69 +1,66 @@
 package models;
 
 
+import application.Controller;
 import interfaces.TodoListItem;
-
-import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 public class Model {
-
-	private int num_categories;
-	private int num_tasks;
+	public static final String FILE_NAME = "CSCI-250-TodoListText.txt";
 	
-	private ArrayList<TodoListItem> itemList;
+	private ObservableList<TodoListItem> itemList;
 	
-	public Model() { 
-		itemList = new ArrayList<TodoListItem>();
-		num_categories = 0;
-		num_tasks = 0;
+	public Model( Controller controller ) { setUpList(controller); }
+	
+	private void setUpList(Controller controller) {
+		itemList = FXCollections.observableArrayList();
 	}
 	
-	public int getNumberOfCategories() {
-		return num_categories;
+	public ObservableList<TodoListItem> getObservableList() {
+		return itemList;
 	}
 	
-	public int getNumberOfTasks() {
-		return num_tasks;
+	public void setObservableList( ObservableList<TodoListItem> list) {
+		itemList = list;
+		System.out.println(itemList);
 	}
 	
-	public TodoListItem getItem( int index ) {
-		return itemList.get(index);
+	public int size() { return itemList.size(); }
+	
+	public void add( TodoListItem item) { itemList.add(item); }
+	
+	public void add( int index, TodoListItem item) { itemList.add( index, item ); }
+	
+	public void remove( TodoListItem item) { itemList.remove(item); }
+	
+	public void remove( int index) { itemList.remove(index); }
+	
+	public TodoListItem get( int index ) { return itemList.get(index); }
+	
+	public int getPosition( TodoListItem item) {return itemList.indexOf(item); }
+	
+	public void move( int from, int to ) {
+		TodoListItem item = get(from);
+		remove(from);
+		add(to, item);
 	}
 	
-	public int size() {
-		return itemList.size();
+	public void move( TodoListItem from, TodoListItem to ) {
+		if ( getDistance( from, to ) < 0 ) {
+			move( getPosition(from), getPosition(to));
+		} else {
+			int to_position = getPosition(to);
+			int from_position = getPosition(from);
+			remove(from_position);
+			add(to_position - 1, from);
+		}
 	}
 	
-	public void addItem( int index, TodoListItem item) {
-		itemList.add( index, item);
-		incrementItems(item);
-	}
-	
-	private void incrementItems( TodoListItem item ) {
-		if ( item instanceof Category)
-			num_categories++;
-		else
-			num_tasks++;
-	}
-	
-	public TodoListItem removeItem( int index ) {
-		TodoListItem item;
-		item = itemList.remove(index);
-		decrementItems(item);
-		return item;
-	}
-	
-	public void removeItem( TodoListItem item) {
-		itemList.remove(item);
-		decrementItems(item);
-	}
-	
-	private void decrementItems( TodoListItem item ) {
-		if ( item instanceof Category)
-			num_categories--;
-		else
-			num_tasks--;
+	public int getDistance( TodoListItem from, TodoListItem to) {
+		return getPosition(to) - getPosition(from);
+		
 	}
 	
 }
