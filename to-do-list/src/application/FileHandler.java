@@ -52,9 +52,7 @@ public class FileHandler {
 			FileWriter fstream = new FileWriter(FILE_NAME, false);
 			writer = new BufferedWriter(fstream);
 			for ( TodoListItem item : list ) {
-				writer.write("-START-\n");
 				writer.write(item.toString());
-				writer.write("-END-\n");
 			}
 		} catch ( IOException e) {
 			e.printStackTrace();

@@ -14,8 +14,6 @@ public class TodoTaskTest {
 	@Test
 	public void initialTextSet() {
 		assertEquals(task.getMainText(), "");
-		task = new TodoTask( STRING );
-		assertEquals(STRING, task.getMainText());
 	}
 	
 	@Test

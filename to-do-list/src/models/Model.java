@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 
 
 public class Model {
-	public static final String FILE_NAME = "CSCI-250-TodoListText.txt";
 	
 	private ObservableList<TodoListItem> itemList;
 	
@@ -18,14 +17,9 @@ public class Model {
 		itemList = FXCollections.observableArrayList();
 	}
 	
-	public ObservableList<TodoListItem> getObservableList() {
-		return itemList;
-	}
+	public ObservableList<TodoListItem> getObservableList() { return itemList; }
 	
-	public void setObservableList( ObservableList<TodoListItem> list) {
-		itemList = list;
-		System.out.println(itemList);
-	}
+	public void setObservableList( ObservableList<TodoListItem> list) { itemList = list; }
 	
 	public int size() { return itemList.size(); }
 	
@@ -41,26 +35,19 @@ public class Model {
 	
 	public int getPosition( TodoListItem item) {return itemList.indexOf(item); }
 	
+	public void move( TodoListItem from, TodoListItem to ) {
+		move( getPosition(from), getPosition(to) );
+	}
+	
 	public void move( int from, int to ) {
 		TodoListItem item = get(from);
-		remove(from);
-		add(to, item);
-	}
-	
-	public void move( TodoListItem from, TodoListItem to ) {
-		if ( getDistance( from, to ) < 0 ) {
-			move( getPosition(from), getPosition(to));
+		if ( to - from < 0 ) {
+			remove(from);
+			add(to, item);
 		} else {
-			int to_position = getPosition(to);
-			int from_position = getPosition(from);
-			remove(from_position);
-			add(to_position - 1, from);
+			remove(from);
+			add(to - 1, item);
 		}
-	}
-	
-	public int getDistance( TodoListItem from, TodoListItem to) {
-		return getPosition(to) - getPosition(from);
-		
 	}
 	
 }

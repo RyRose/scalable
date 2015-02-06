@@ -97,15 +97,15 @@ public class LeftTodoTaskView extends HBox {
 	
 	private void setUpTextField() {
 		field = new TextField();
-		field.focusedProperty().addListener( (observable, oldvalue, newValue) -> onTextFieldFocusReleased( !newValue ) );
+		field.focusedProperty().addListener( (observable, oldvalue, newValue) -> onTextFieldInterrupt( !newValue ) );
 		field.addEventHandler(KeyEvent.KEY_PRESSED, event -> onEnterPressed(event) );
 		Platform.runLater( () -> field.requestFocus() );
 		getChildren().add(field);
 	}
 	
-	private void onTextFieldFocusReleased( Boolean isFocusReleased ) {
+	private void onTextFieldInterrupt( Boolean isFocusReleased ) {
 		if ( isFocusReleased && field.getText().isEmpty()) 
-			callback.onTaskFocusLost();
+			callback.onTextFieldInterrupt();;
 	}
 	
 	private void onEnterPressed( KeyEvent event ) {

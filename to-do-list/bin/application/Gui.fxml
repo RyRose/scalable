@@ -5,8 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
+<BorderPane fx:id="rootPane" visible="true" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <center>
       <ListView fx:id="listView" BorderPane.alignment="CENTER" />
    </center>
+   <right>
+      <Pane fx:id="sidePane" visible="false" BorderPane.alignment="CENTER_RIGHT" />
+   </right>
 </BorderPane>

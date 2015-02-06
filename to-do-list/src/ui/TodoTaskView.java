@@ -30,12 +30,16 @@ public class TodoTaskView extends BaseTodoListItemView implements TodoListItem {
 		return task.getMainText();
 	}
 	
+	public void setMainText(String s) {
+		task.setText(s);
+	}
+	
 	void onDeleteItem() {
 		callback.onDeleteItem(this);
 	}
 	
-	void onTaskFocusLost() {
-		callback.onTaskFocusLost(this);
+	void onTextFieldInterrupt() {
+		callback.onTextFieldInterrupt(this);
 	}
 	
 	private void setUpLeftView() {

@@ -11,9 +11,7 @@ public class TodoTask {
 		taskText = s;
 		isEnabled = enabled;
 	}
-	
-	public TodoTask( String s ) { taskText = s;	}
-	
+		
 	public TodoTask() {	taskText = ""; }
 	
 	public String getMainText() { return taskText; }

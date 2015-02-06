@@ -11,14 +11,22 @@ import interfaces.ControllerCallback;
 import interfaces.TodoListItem;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Controller implements ControllerCallback {
 	private final String[] PRESET_CATEGORIES = new String[] { "Today", "Tomorrow", "Later"};
 	
 	@FXML
+	private BorderPane rootPane;
+	
+	@FXML
 	private ListView<TodoListItem> listView;
 	
+	@FXML
+	private Pane sidePane;
+		
 	private Model model;
 	
 	@FXML
@@ -61,7 +69,7 @@ public class Controller implements ControllerCallback {
 	}
 
 	@Override
-	public void onTaskFocusLost(TodoTaskView task) {
+	public void onTextFieldInterrupt(TodoTaskView task) {
 		model.remove(task);
 	}
 	
