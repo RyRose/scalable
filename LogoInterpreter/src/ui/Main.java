@@ -1,4 +1,4 @@
-package application;
+package ui;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("Gui.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,800,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();

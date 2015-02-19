@@ -4,7 +4,7 @@ public class Grammar extends edu.hendrix.grambler.Grammar {
     public Grammar() {
         super();
         addProduction("lines", new String[]{"lines", "line"}, new String[]{"line"});
-        addProduction("line", new String[]{"first_cmd", "newline"}, new String[]{"first_cmd"});
+        addProduction("line", new String[]{"sp", "first_cmd", "newline"}, new String[]{"sp", "first_cmd"});
         addProduction("first_cmd", new String[]{"first_cmd", "sp", "cmd"}, new String[]{"cmd"});
         addProduction("cmd", new String[]{"repeat_cmd"}, new String[]{"ifelse_cmd"}, new String[]{"if_cmd"}, new String[]{"procedure_cmd"}, new String[]{"call_cmd"});
         addProduction("no_arg_cmd", new String[]{"no_arg_cmds"});
@@ -18,7 +18,7 @@ public class Grammar extends edu.hendrix.grambler.Grammar {
         addProduction("cond_statement", new String[]{"cond_statement", "sp", "linker", "sp", "cond_paren"}, new String[]{"cond_paren"});
         addProduction("cond_paren", new String[]{"'not'", "sp", "cond_paren"}, new String[]{"'('", "sp", "num", "sp", "cond", "sp", "num", "sp", "')'"}, new String[]{"num", "sp", "cond", "sp", "num"});
         addProduction("bracket", new String[]{"'['", "sp", "first_cmd", "sp", "']'"});
-        addProduction("arg_cmds", new String[]{"'fd'"}, new String[]{"fd"}, new String[]{"bk"}, new String[]{"lt"}, new String[]{"rt"});
+        addProduction("arg_cmds", new String[]{"fd"}, new String[]{"bk"}, new String[]{"lt"}, new String[]{"rt"});
         addProduction("no_arg_cmds", new String[]{"pd"}, new String[]{"pu"}, new String[]{"home"}, new String[]{"cs"}, new String[]{"st"}, new String[]{"ht"});
         addProduction("pd", new String[]{"'pendown'"}, new String[]{"'pd'"});
         addProduction("pu", new String[]{"'penup'"}, new String[]{"'pu'"});
@@ -32,8 +32,8 @@ public class Grammar extends edu.hendrix.grambler.Grammar {
         addProduction("rt", new String[]{"'right'"}, new String[]{"'rt'"});
         addProduction("cond", new String[]{"'<='"}, new String[]{"\"<[^=]\""}, new String[]{"'='"}, new String[]{"\">[^=]\""}, new String[]{"'>='"});
         addProduction("linker", new String[]{"'and'"}, new String[]{"'or'"});
-        addProduction("sp", new String[]{"\"\\s*\""});
-        addProduction("newline", new String[]{"\"\\s*\\n\""}, new String[]{"\"\\s*\\r\\n\""});
+        addProduction("sp", new String[]{"\" *\""});
+        addProduction("newline", new String[]{"\" *\\n\""}, new String[]{"\" *\\r\\n\""});
         addProduction("name", new String[]{"\"[a-z]+\""});
         addProduction("param", new String[]{"\":[a-z]+\""});
         addProduction("num", new String[]{"\"\\d+\""}, new String[]{"param"}, new String[]{"name", "sp", "num"}, new String[]{"expr"});
