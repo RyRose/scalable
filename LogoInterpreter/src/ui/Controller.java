@@ -1,6 +1,5 @@
 package ui;
 
-import models.Model;
 import models.Turtle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,7 +8,6 @@ import javafx.scene.layout.Pane;
 
 public class Controller {
 	
-	Model model;
 	
 	@FXML
 	Pane canvas;
@@ -21,16 +19,19 @@ public class Controller {
 	TextArea textEntry;
 	
 	TurtleView turtleView;
+	
+	InstructionEvaluator evaluator;
 
 	@FXML
 	void initialize() {
 		Turtle turtle = new Turtle( 300, 300, 0);
-		turtleView = new TurtleView(turtle);
+		turtleView = new TurtleView(turtle, canvas);
+		evaluator = new InstructionEvaluator(turtleView, canvas);
 		canvas.getChildren().add(turtleView);
 	}
 	
 	@FXML
 	void onSubmitInstructions() {
-		System.out.println("hello");
+		evaluator.eval( textEntry.getText()	 );
 	}
 }

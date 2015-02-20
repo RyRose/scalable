@@ -10,7 +10,7 @@ public class NumberEvaluator {
 	public static final String ADDSUB_EXPR = "expr";
 	public static final String MULTDIV_EXPR = "expr2";
 	public static final String PARENTHESIS = "paren";
-	public static final String NUMBER = "num";
+	public static final String NUMBER = "number";
 	public static final String VARIABLE = "var";
 	
 	public static final String ADDSUB = "as";
@@ -22,8 +22,10 @@ public class NumberEvaluator {
 	public static final String MULTIPLY = "multiply";
 	public static final String DIVIDE = "divide";
 	
-	private final String ERROR_MESSAGE = "Cannot be evaluated.";
+
 	
+	private final String ERROR_MESSAGE = "Cannot be evaluated.";
+		
 	public int evalTree( Tree t ) {
 		return Integer.parseInt(eval(t));
 	}
@@ -31,6 +33,9 @@ public class NumberEvaluator {
 	private String eval(Tree t) {
 		if ( isNumber(t) ) 
 			return handleNumber(t);
+		
+		else if ( isParam(t) )
+			return handleParam(t);
 		
 		else if ( isAlone(t) ) 
 			return handleAlone(t);
@@ -49,11 +54,19 @@ public class NumberEvaluator {
 	}
 	
 	private boolean isNumber( Tree t ) {
-		return t.isNamed(NUMBER);
+		return t.isNamed("number");
 	}
 	
 	private String handleNumber( Tree t ) {
 		return t.toString();
+	}
+	
+	private boolean isParam( Tree t ) {
+		return t.isNamed("param");
+	}
+	
+	private String handleParam( Tree t ) {
+		return String.valueOf(BaseEvaluator.numKeys.get(t.toString()));
 	}
 	
 	private boolean isAlone( Tree t ) {

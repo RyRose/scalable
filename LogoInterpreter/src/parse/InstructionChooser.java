@@ -2,7 +2,7 @@ package parse;
 
 import edu.hendrix.grambler.Tree;
 
-public class InstructionDecider {
+public class InstructionChooser {
 	
 	private static final String FORWARD_CMD = "fd";
 	private static final String BACK_CMD = "bk";
@@ -29,26 +29,26 @@ public class InstructionDecider {
 		return t.hasNamed(RIGHT_CMD);
 	}
 
-	public static final boolean hasPendown( Tree t ) {
+	public static final boolean isPendown( Tree t ) {
 		return t.hasNamed(PENDOWN_CMD);
 	}
-	public static final boolean hasPenup( Tree t ) {
+	public static final boolean isPenup( Tree t ) {
 		return t.hasNamed(PENUP_CMD);
 	}
 	
-	public static final boolean hasHome( Tree t ) {
+	public static final boolean isHome( Tree t ) {
 		return t.hasNamed(HOME_CMD);
 	}
 	
-	public static final boolean hasClearscreen( Tree t ) {
+	public static final boolean isClearscreen( Tree t ) {
 		return t.hasNamed(CLEARSCREEN_CMD);
 	}
 	
-	public static final boolean hasHideturtle( Tree t ) {
+	public static final boolean isHideturtle( Tree t ) {
 		return t.hasNamed(HIDETURTLE_CMD);
 	}
 	
-	public static final boolean hasShowturtle( Tree t ) {
+	public static final boolean isShowturtle( Tree t ) {
 		return t.hasNamed(SHOWTURTLE_CMD);
 	}
 }

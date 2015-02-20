@@ -31,12 +31,15 @@ public class Grammar extends edu.hendrix.grambler.Grammar {
         addProduction("lt", new String[]{"'left'"}, new String[]{"'lt'"});
         addProduction("rt", new String[]{"'right'"}, new String[]{"'rt'"});
         addProduction("cond", new String[]{"'<='"}, new String[]{"\"<[^=]\""}, new String[]{"'='"}, new String[]{"\">[^=]\""}, new String[]{"'>='"});
-        addProduction("linker", new String[]{"'and'"}, new String[]{"'or'"});
+        addProduction("linker", new String[]{"and"}, new String[]{"or"});
         addProduction("sp", new String[]{"\" *\""});
         addProduction("newline", new String[]{"\" *\\n\""}, new String[]{"\" *\\r\\n\""});
+        addProduction("and", new String[]{"'and'"});
+        addProduction("or", new String[]{"'or'"});
         addProduction("name", new String[]{"\"[a-z]+\""});
         addProduction("param", new String[]{"\":[a-z]+\""});
-        addProduction("num", new String[]{"\"\\d+\""}, new String[]{"param"}, new String[]{"name", "sp", "num"}, new String[]{"expr"});
+        addProduction("number", new String[]{"\"\\d+\""});
+        addProduction("num", new String[]{"number"}, new String[]{"param"}, new String[]{"expr"});
         addProduction("expr", new String[]{"expr", "sp", "as", "sp", "expr2"}, new String[]{"expr2"});
         addProduction("expr2", new String[]{"expr2", "sp", "md", "sp", "paren"}, new String[]{"paren"});
         addProduction("paren", new String[]{"'('", "sp", "expr", "sp", "')'"}, new String[]{"num"});
