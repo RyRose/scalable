@@ -24,7 +24,7 @@ public class Controller {
 
 	@FXML
 	void initialize() {
-		Turtle turtle = new Turtle( 300, 300, 0);
+		Turtle turtle = new Turtle( 275, 275, 0);
 		turtleView = new TurtleView(turtle, canvas);
 		evaluator = new InstructionEvaluator(turtleView, canvas);
 		canvas.getChildren().add(turtleView);

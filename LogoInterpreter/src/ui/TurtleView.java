@@ -26,8 +26,8 @@ public class TurtleView extends Polygon{
 		turtle.move(units);
 		if (isPendown) 
 			drawPath( canvas );
-		setTranslateX(turtle.getCoordinates()[0] - 300);
-		setTranslateY(turtle.getCoordinates()[1] - 300);
+		setTranslateX(turtle.getCoordinates()[0] - 275);
+		setTranslateY(turtle.getCoordinates()[1] - 275);
 	}
 	
 	private void drawPath( Pane canvas ) {

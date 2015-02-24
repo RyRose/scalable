@@ -1,5 +1,8 @@
 package parse;
 
+import java.util.HashMap;
+import java.util.List;
+
 import edu.hendrix.grambler.Tree;
 
 public class NumberEvaluator {
@@ -22,9 +25,26 @@ public class NumberEvaluator {
 	public static final String MULTIPLY = "multiply";
 	public static final String DIVIDE = "divide";
 	
-
 	
 	private final String ERROR_MESSAGE = "Cannot be evaluated.";
+	
+	private HashMap<String, Integer> numKeys;
+	
+	public NumberEvaluator() {
+		numKeys = new HashMap<String, Integer>();
+	}
+	
+	public void addParameter(String param, int value) {
+		numKeys.put(param, value);
+		
+	}
+	
+	public void addParameters(List<String> params, List<String> values) {
+		for(int i = 0; i < params.size(); i++) {
+			numKeys.put(params.get(i), Integer.valueOf(values.get(i)));
+		}
+	}
+
 		
 	public int evalTree( Tree t ) {
 		return Integer.parseInt(eval(t));
@@ -66,7 +86,7 @@ public class NumberEvaluator {
 	}
 	
 	private String handleParam( Tree t ) {
-		return String.valueOf(BaseEvaluator.numKeys.get(t.toString()));
+		return String.valueOf(numKeys.get(t.toString()));
 	}
 	
 	private boolean isAlone( Tree t ) {

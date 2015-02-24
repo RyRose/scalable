@@ -1,5 +1,6 @@
 package parse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.hendrix.grambler.ParseException;
@@ -11,8 +12,7 @@ abstract public class BaseEvaluator {
 	private Grammar grammar;
 	private NumberEvaluator numberEvaluator;
 	
-	private HashMap<String, String[]> varkeys;
-	public static HashMap<String, Integer> numKeys;
+	private HashMap<String, CustomProcedure> customProcedures;
 	
 	protected abstract void handleClearscreenCommand();
 	protected abstract void handleHomeCommand();
@@ -28,9 +28,8 @@ abstract public class BaseEvaluator {
 	
 	public BaseEvaluator() { 
 		grammar = new Grammar();
+		customProcedures = new HashMap<String, CustomProcedure>();
 		numberEvaluator = new NumberEvaluator();
-		varkeys = new HashMap<String, String[]>();
-		numKeys = new HashMap<String, Integer>();
 	}
 	
 	public void eval(String input) {
@@ -49,35 +48,34 @@ abstract public class BaseEvaluator {
 		} else if ( t.hasNamed("lines") ) {
 			evalTree(t.getChild(0));
 			evalTree(t.getChild(1));
-		} else if (t.isNamed("line")) {
+		} else if (t.isNamed("line"))
 			evalTree(t.getNamedChild("first_cmd"));
-		} else if ( t.isNamed("no_arg_cmds")) {
+		else if ( t.isNamed("no_arg_cmds"))
 			handleNoArgumentCommands(t);
-		} else if (t.isNamed("arg_cmd") ) {
+		else if (t.isNamed("arg_cmd") )
 			handleArgumentCommands(t);
-		} else if (t.isNamed("repeat_cmd")) {
+		else if (t.isNamed("repeat_cmd"))
 			handleRepeatCommand(t);
-		} else if (t.isNamed("if_cmd") ) {
+		else if (t.isNamed("if_cmd") )
 			handleIfCommand(t);
-		} else if (t.isNamed("ifelse_cmd") ) {
+		else if (t.isNamed("ifelse_cmd") )
 			handleIfElseCommand(t);
-		} else if (t.isNamed("cond_statement")) {
+		else if (t.isNamed("cond_statement"))
 			handleCondStatementCommand(t);
-		} else if (t.isNamed("cond_paren")) {
+		else if (t.isNamed("cond_paren"))
 			handleCondParenCommand(t);
-		} else if (t.isNamed("procedure_cmd")) {
+		else if (t.isNamed("procedure_cmd"))
 			handleProcedureCommand(t);
-		} else if (t.isNamed("custom_procedure_cmd"))
+		else if (t.isNamed("custom_procedure_cmd"))
 			handleCustomProcedureCommand(t);
-		else if ( t.getNumChildren() == 1 ) {
+		else if ( t.getNumChildren() == 1 )
 			evalTree(t.getChild(0));
-		}
 		else 
 			throw new IllegalArgumentException( ERROR_MESSAGE + " " + t.toString());
 	}
 	
 	private void handleNoArgumentCommands( Tree t ) {
-		if (InstructionChooser.isClearscreen(t)) 
+		if (InstructionChooser.isClearscreen(t))
 			handleClearscreenCommand();
 		else if (InstructionChooser.isHome(t)) 
 			handleHomeCommand();
@@ -105,16 +103,14 @@ abstract public class BaseEvaluator {
 			handleRotateLeftCommand(num);
 		else if (InstructionChooser.hasRight(cmds))
 			handleRotateRightCommand(num);
-		else {
+		else
 			throw new IllegalArgumentException("Invalid argument_command");
-		}
 	}
 	
 	private void handleRepeatCommand( Tree t ) throws ParseException {
 		int repeat_count = numberEval(t.getNamedChild("num"));
-		for( int i = 0; i < repeat_count; i++) {
+		for( int i = 0; i < repeat_count; i++)
 			evalTree( t.getNamedChild("bracket").getNamedChild("first_cmd"));
-		}
 	}
 	
 	private void handleIfCommand( Tree t ) throws ParseException {
@@ -172,17 +168,27 @@ abstract public class BaseEvaluator {
 	}
 	
 	private void handleProcedureCommand( Tree t ) {
-		String name = t.getNamedChild("name").toString();
-		String param = t.getNamedChild("param").toString();
-		String command = t.getNamedChild("bracket").getNamedChild("first_cmd").toString();
-		varkeys.put(name, new String[] {param, command} );		
+		CustomProcedure  customProcedure = new CustomProcedure();
+		customProcedure.name = t.getNamedChild("name").toString();
+		customProcedure.command = t.getNamedChild("bracket").getNamedChild("first_cmd").toString();
+		
+		while(t.hasNamed("parameters")) {
+			t = t.getNamedChild("parameters");
+			customProcedure.addParameter( t.getNamedChild("param").toString() );
+		}
+		customProcedures.put(customProcedure.name, customProcedure);
 	}
 	
 	private void handleCustomProcedureCommand( Tree t ) throws ParseException {
-		String[] procedure = varkeys.get(t.getChild(0).toString());
-		numKeys.put(procedure[0], numberEval( t.getLastChild()));
-		evalTree(grammar.parse(procedure[1]));
-		
+		CustomProcedure procedure = customProcedures.get(t.getChild(0).toString());
+		ArrayList<String> values = new ArrayList<String>();
+		System.out.println(t.getChild(3).getName());
+		while( t.hasNamed("custom_params")) {
+			t = t.getNamedChild("custom_params");
+			values.add(String.valueOf(numberEval(t.getNamedChild("num"))));
+		}
+		numberEvaluator.addParameters(procedure.getParameters(), values);
+		evalTree(grammar.parse(procedure.command));
 	}
 	
 	private int numberEval( Tree t ) {

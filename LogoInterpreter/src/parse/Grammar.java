@@ -12,9 +12,9 @@ public class Grammar extends edu.hendrix.grambler.Grammar {
         addProduction("repeat_cmd", new String[]{"'repeat'", "sp", "num", "sp", "bracket"});
         addProduction("if_cmd", new String[]{"\"if[^else]\"", "sp", "cond_statement", "sp", "bracket"});
         addProduction("ifelse_cmd", new String[]{"'ifelse'", "sp", "cond_statement", "sp", "bracket", "sp", "bracket"});
-        addProduction("procedure_cmd", new String[]{"'to'", "sp", "name", "sp", "param", "sp", "bracket"});
+        addProduction("procedure_cmd", new String[]{"'to'", "sp", "name", "sp", "parameters", "sp", "bracket"});
         addProduction("call_cmd", new String[]{"no_arg_cmd"}, new String[]{"arg_cmd"}, new String[]{"custom_procedure_cmd"});
-        addProduction("custom_procedure_cmd", new String[]{"name", "sp", "sp", "num"});
+        addProduction("custom_procedure_cmd", new String[]{"name", "sp", "sp", "custom_params"});
         addProduction("cond_statement", new String[]{"cond_statement", "sp", "linker", "sp", "cond_paren"}, new String[]{"cond_paren"});
         addProduction("cond_paren", new String[]{"'not'", "sp", "cond_paren"}, new String[]{"'('", "sp", "num", "sp", "cond", "sp", "num", "sp", "')'"}, new String[]{"num", "sp", "cond", "sp", "num"});
         addProduction("bracket", new String[]{"'['", "sp", "first_cmd", "sp", "']'"});
@@ -37,6 +37,8 @@ public class Grammar extends edu.hendrix.grambler.Grammar {
         addProduction("and", new String[]{"'and'"});
         addProduction("or", new String[]{"'or'"});
         addProduction("name", new String[]{"\"[a-z]+\""});
+        addProduction("parameters", new String[]{"parameters", "sp", "param"}, new String[]{"param"});
+        addProduction("custom_params", new String[]{"custom_params", "sp", "num"}, new String[]{"num"});
         addProduction("param", new String[]{"\":[a-z]+\""});
         addProduction("number", new String[]{"\"\\d+\""});
         addProduction("num", new String[]{"number"}, new String[]{"param"}, new String[]{"expr"});
