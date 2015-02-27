@@ -1,51 +1,51 @@
 package models;
 
 public class Turtle {
-	private double newX; private double newY;
-	private double oldX; private double oldY;
+	public Speed speed;
+	private double currentX; private double currentY;
+	private double previousX; private double previousY;
 	private final double homeX; private final double homeY;
 	private int direction;
 	
-	
+		
 	public Turtle(int x, int y, int direction) {
-		oldX = newX = homeX = x;
-		oldY = newY = homeY = y;
+		homeX = previousX = currentX = x;
+		homeY = previousY = currentY = y;
 		this.direction = direction;
+		speed = Speed.MEDIUM;
 	}
 	
-	public double[] getCoordinates() {
-		return new double[] {newX, newY};
+	public double[] getCoordinates() {	return new double[] {currentX, currentY}; }
+	
+	public double[] getPreviousCoordinates() {	return new double[] {previousX, previousY}; }
+	
+	public double[] getHomeCoordinates() { return new double[] {homeX, homeY}; }
+	
+	public int getDirection() {	return direction;	}
+		
+	private void move(double x, double y) {
+		previousX = currentX; 
+		previousY = currentY;
+		currentX += x; 
+		currentY += y;
 	}
 	
-	public double[] getPreviousCoordinates() {
-		return new double[] {oldX, oldY};
+	public void moveHome() { 
+		previousX = currentX;
+		previousY = currentY;
+		currentX = homeX;
+		currentY = homeY;
 	}
+
+	public void moveForward( int units ) {
+		double newX = units * Math.cos( Math.toRadians(direction) );
+		double newY = units * Math.sin( Math.toRadians(direction) );
+		move(newX, newY);
+	}
+			
+	public void rotateRight( int degrees ) { this.direction += degrees; }
 	
-	public int getDirection() {
-		return direction;
-	}
-	
-	public void move( int units ) {
-		oldX = newX;
-		oldY = newY;
-		newX += units * Math.cos( Math.toRadians(direction) );
-		newY += units * Math.sin( Math.toRadians(direction) );
-	}
-	
-	public void moveHome() {
-		oldX = newX;
-		oldY = newY;
-		newX = homeX;
-		newY = homeY;
-	}
-	
-	public void rotateRight( int degrees ) {
-		direction += degrees;
-	}
-	
-	public void rotateLeft( int degrees ) {
-		direction -= degrees;
-	}
+	public void rotateLeft( int degrees ) {	this.direction -= degrees; }
 	
 	public void reset() {
 		direction = 0;

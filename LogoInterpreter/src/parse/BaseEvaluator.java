@@ -32,13 +32,9 @@ abstract public class BaseEvaluator {
 		numberEvaluator = new NumberEvaluator();
 	}
 	
-	public void eval(String input) {
-		try {
+	public void eval(String input) throws ParseException {
 			Tree tree = grammar.parse(input);
 			evalTree(tree);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} 
 	}
 
 	private void evalTree(Tree t) throws ParseException {
@@ -181,8 +177,10 @@ abstract public class BaseEvaluator {
 	
 	private void handleCustomProcedureCommand( Tree t ) throws ParseException {
 		CustomProcedure procedure = customProcedures.get(t.getChild(0).toString());
+		if (procedure == null) {
+			throw new IllegalArgumentException( "Error: Custom procedure(s) undefined.");
+		}
 		ArrayList<String> values = new ArrayList<String>();
-		System.out.println(t.getChild(3).getName());
 		while( t.hasNamed("custom_params")) {
 			t = t.getNamedChild("custom_params");
 			values.add(String.valueOf(numberEval(t.getNamedChild("num"))));

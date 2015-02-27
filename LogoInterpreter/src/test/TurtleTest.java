@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.*;
+import models.Speed;
 import models.Turtle;
 
 import org.junit.Test;
@@ -11,14 +12,14 @@ public class TurtleTest {
 	
 	@Test
 	public void TestMove() {
-		turtle.move(40);
+		turtle.moveForward(40);
 		assertEquals(turtle.getCoordinates()[0], 40, 0);
 		assertEquals(turtle.getCoordinates()[1], 0, 0);
 	}
 	
 	@Test
 	public void TestMoveHome() {
-		turtle.move(1000);
+		turtle.moveForward(1000);
 		turtle.moveHome();
 		assertEquals(turtle.getCoordinates()[0], 0, 0);
 		assertEquals(turtle.getCoordinates()[1], 0, 0);

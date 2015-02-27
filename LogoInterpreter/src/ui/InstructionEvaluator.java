@@ -64,7 +64,6 @@ public class InstructionEvaluator extends BaseEvaluator{
 	@Override
 	protected void handleRotateRightCommand(int degrees) {
 		turtle.rotateRight(degrees);
-		
 	}
 	
 	

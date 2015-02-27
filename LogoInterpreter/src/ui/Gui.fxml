@@ -6,17 +6,50 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+<BorderPane prefHeight="617.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
    <center>
-      <Pane fx:id="canvas" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="canvas" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
    </center>
+   <bottom>
+      <TextField fx:id="statusBar" disable="true" BorderPane.alignment="CENTER" />
+   </bottom>
    <left>
-      <BorderPane prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-         <center>
-            <TextArea fx:id="textEntry" BorderPane.alignment="CENTER" />
-         </center>
+      <BorderPane prefWidth="200.0" BorderPane.alignment="CENTER">
+         <top>
+          <TitledPane animated="false" collapsible="false" prefWidth="322.0" text="Controls" BorderPane.alignment="CENTER">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Button fx:id="forward" layoutX="160.0" layoutY="14.0" mnemonicParsing="false" onAction="#moveForward" text="Forward" />
+                        <Button fx:id="back" layoutX="155.0" layoutY="117.0" mnemonicParsing="false" onAction="#moveBackward" text="Backward" />
+                        <Button fx:id="left" layoutX="44.0" layoutY="65.0" mnemonicParsing="false" onAction="#rotateLeft" text="Left" />
+                        <Button fx:id="right" layoutX="314.0" layoutY="65.0" mnemonicParsing="false" onAction="#rotateRight" text="Right" />
+                        <Button fx:id="penUpDown" layoutX="142.0" layoutY="65.0" mnemonicParsing="false" onAction="#penUpDown" text="Pen Up/Down" />
+                        <Button fx:id="showHideTurtle" layoutX="275.0" layoutY="117.0" mnemonicParsing="false" onAction="#showHideTurtle" text="Show/Hide Turtle" />
+                        <Button fx:id="clearScreen" layoutX="14.0" layoutY="117.0" mnemonicParsing="false" onAction="#clearScreen" text="Clear Screen" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
+         </top>
          <bottom>
-            <Button fx:id="submit" mnemonicParsing="false" onAction="#onSubmitInstructions" text="Submit" BorderPane.alignment="CENTER" />
+          <TitledPane collapsible="false" focusTraversable="false" minHeight="400.0" text="Interpreter" BorderPane.alignment="CENTER">
+               <content>
+                  <BorderPane prefWidth="200.0">
+                     <center>
+                        <TextArea fx:id="textEntry" BorderPane.alignment="CENTER" />
+                     </center>
+                     <bottom>
+                        <HBox BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="submit" mnemonicParsing="false" onAction="#onSubmitInstructions" text="Submit" />
+                              <Button fx:id="clear" mnemonicParsing="false" onAction="#clearInstructions" text="Clear" />
+                           </children>
+                        </HBox>
+                     </bottom>
+                  </BorderPane>
+               </content>
+            </TitledPane>
          </bottom>
       </BorderPane>
    </left>
